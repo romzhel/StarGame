@@ -1,6 +1,7 @@
 package ru.romzhel.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -10,10 +11,7 @@ public class StarGame extends ApplicationAdapter {
     private SpriteBatch batch;
     private Texture img;
     private Texture backgroundImg;
-    private TextureRegion imagePart;
     private int x = 0;
-    private final int WIDTH = 800;
-    private final int HEIGHT = 600;
     private final int IMAGE_SIDE_SIZE = 256;
 
     @Override
@@ -25,19 +23,22 @@ public class StarGame extends ApplicationAdapter {
 
     @Override
     public void render() {
+        int screenWidth = Gdx.graphics.getWidth();
+        int screenHeight = Gdx.graphics.getHeight();
+
         ScreenUtils.clear(1, 0, 0, 1);
         batch.begin();
-        batch.draw(backgroundImg, 0, 0, WIDTH, HEIGHT);
+        batch.draw(backgroundImg, 0, 0, screenWidth, screenHeight);
 
-        if (x > WIDTH - IMAGE_SIDE_SIZE) {
-            int overlapping = x + IMAGE_SIDE_SIZE - WIDTH;
-            imagePart = new TextureRegion(img, IMAGE_SIDE_SIZE - overlapping, 0, overlapping, IMAGE_SIDE_SIZE);
+        if (x > screenWidth - IMAGE_SIDE_SIZE) {
+            int overlapping = x + IMAGE_SIDE_SIZE - screenWidth;
+            TextureRegion imagePart = new TextureRegion(img, IMAGE_SIDE_SIZE - overlapping, 0, overlapping, IMAGE_SIDE_SIZE);
             batch.draw(imagePart, 0, 0, imagePart.getRegionWidth(), IMAGE_SIDE_SIZE);
         }
 
         batch.draw(img, x, 0);
 
-        if (x++ > WIDTH) {
+        if (x++ > screenWidth) {
             x = 0;
         }
 
@@ -48,5 +49,6 @@ public class StarGame extends ApplicationAdapter {
     public void dispose() {
         batch.dispose();
         img.dispose();
+        backgroundImg.dispose();
     }
 }
