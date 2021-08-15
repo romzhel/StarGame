@@ -8,10 +8,13 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 
 import ru.romzhel.game.base.BaseScreen;
+import ru.romzhel.game.base.Sprite;
 import ru.romzhel.game.math.Rect;
 import ru.romzhel.game.pool.BulletPool;
 import ru.romzhel.game.pool.EnemyPool;
 import ru.romzhel.game.sprite.Background;
+import ru.romzhel.game.sprite.Bullet;
+import ru.romzhel.game.sprite.EnemyShip;
 import ru.romzhel.game.sprite.MainShip;
 import ru.romzhel.game.sprite.Star;
 import ru.romzhel.game.utils.EnemyEmitter;
@@ -126,7 +129,27 @@ public class GameScreen extends BaseScreen {
     }
 
     private void checkCollisions() {
+        for (EnemyShip enemyShip : enemyPool.getActiveSprites()) {
+            if (checkDistance(enemyShip, mainShip)) {
+                enemyShip.destroy();
+                System.out.println("enemy ship destroyed by main ship");
+            }
+        }
 
+        for (Bullet bullet : bulletPool.getActiveSprites()) {
+            for (EnemyShip enemyShip : enemyPool.getActiveSprites()) {
+                if (bullet.getOwner() != enemyShip && checkDistance(bullet, enemyShip)) {
+                    bullet.destroy();
+                    enemyShip.destroy();
+                    System.out.println("enemy ship destroyed by main ship bullet");
+                }
+            }
+        }
+    }
+
+    private boolean checkDistance(Sprite sprite1, Sprite sprite2) {
+        float collisionDistance = Math.max(sprite2.getHalfHeight(), sprite2.getHalfWidth());
+        return sprite1.pos.dst(sprite2.pos) <= collisionDistance;
     }
 
     private void freeAllDestroyed() {
