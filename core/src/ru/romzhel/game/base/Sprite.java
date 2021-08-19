@@ -14,7 +14,7 @@ public class Sprite extends Rect {
     protected TextureRegion[] regions;
     protected int frame;
 
-    private boolean destroyed;
+    protected boolean destroyed;
 
     public Sprite() {
     }
@@ -35,6 +35,10 @@ public class Sprite extends Rect {
     }
 
     public void update(float delta) {
+
+    }
+
+    public void init() {
 
     }
 

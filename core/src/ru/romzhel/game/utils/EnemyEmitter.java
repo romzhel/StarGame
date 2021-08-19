@@ -115,4 +115,8 @@ public class EnemyEmitter {
             enemy.setPos(posX, worldBounds.getTop());
         }
     }
+
+    public void init() {
+        generateTimer = 0f;
+    }
 }

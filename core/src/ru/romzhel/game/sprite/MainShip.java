@@ -33,8 +33,15 @@ public class MainShip extends Ship {
         bulletHeight = 0.01f;
         bulletDamage = 1;
         reloadInterval = RELOAD_INTERVAL;
+        init();
+    }
+
+    @Override
+    public void init() {
         v0.set(0.5f, 0);
+        pos.x = 0;
         hp = 1;
+        destroyed = false;
     }
 
     @Override
@@ -158,5 +165,4 @@ public class MainShip extends Ship {
     private void stop() {
         v.setZero();
     }
-
 }
